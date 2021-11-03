@@ -1,0 +1,18 @@
+/* mobile */
+@media (min-width: 280px) {
+    body {
+      background: green;
+    }
+}
+/* Tablets */
+@media (min-width: 481px) {
+    body {
+      background: red;
+    }
+}
+/* Desktops */
+@media (min-width: 769px) {
+    body {
+      background: blue;
+    }
+}
