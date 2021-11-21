@@ -1,0 +1,55 @@
+@import "./root.css";
+
+.header-nav{
+    background-color: var(--main-color) ;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 12vh;
+}
+
+.header-logo,
+.notification-image,
+.profile-image{
+    height: 7.5vh;
+    width: auto;
+}
+
+.header-logo{
+    margin-top: 2vh;
+    margin-left: 1.5vw;
+}
+
+.search,
+.profile{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+}
+
+.search{
+    margin-left: 10vw;
+}
+
+.search-icon{
+    height: 5vh;
+    width: auto;
+}
+
+.search-bar{
+    background-color: var(--secondary-accent-color);
+    height: 5vh;
+    width: 35vw;
+}
+
+.login-button{
+    height: 7.5vh;
+    width: 7.5vw;
+    margin-right: 1.5vw;
+    font-size: 2rem;
+    background-color: var(--main-accent-color);
+    border: none;
+    border-radius: 2vw;
+}
