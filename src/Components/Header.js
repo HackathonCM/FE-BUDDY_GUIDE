@@ -1,8 +1,12 @@
 import React from "react";
 import "../Styles/header.css";
-
+import {useNavigate} from 'react-router-dom';
+import Login from "../Pages/Login/Login";
 
 function Header() {
+
+
+    const navigate = useNavigate();
 
     return (
         <div className="header-nav">
@@ -28,7 +32,7 @@ function Header() {
                         <path d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z" />
                     </svg>
                 </a>
-                <button className="btn btn-secondary">Login</button>  {/* login/logout button */}
+                <button className="btn btn-secondary" onClick={ ()=>{navigate("/")} }>Login</button>  {/* login/logout button */}
             </div>
         </div>
     );
