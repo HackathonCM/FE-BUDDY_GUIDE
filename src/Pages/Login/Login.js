@@ -1,10 +1,9 @@
 import * as React from 'react';
+import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,10 +11,36 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { GlobalContext } from '../../context/global';
 
 const theme = createTheme();
 
+const useLoginApi = () => {
+    const { globalState, setGlobalState } = React.useContext(GlobalContext);
+
+    const login = React.useCallback(async (username, password) => {
+        try {
+            const response = await axios.post('localhost:8080/account', {
+                username,
+                password
+            });
+
+            if (response.status === 200) {
+                setGlobalState({
+                    user: username
+                })
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }, [setGlobalState]);
+
+    return { login }
+}
+
 export default function Login() {
+    const { login } = useLoginApi();
+
     const renderTitle = () => {
         return (
             <>
@@ -85,7 +110,7 @@ export default function Login() {
             </Grid>
         )
     }
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
@@ -93,6 +118,8 @@ export default function Login() {
             user_name: data.get('user_name'),
             password: data.get('password'),
         });
+
+        await login(data.get('user_name'), data.get('password'))
     };
 
     return (

@@ -9,20 +9,23 @@ import Home from "./Pages/Home/Home";
 import UserProfile from "./Pages/User/UserProfile";
 import GuideProfile from "./Pages/Guide/GuideProfile";
 import Login from "./Pages/Login/Login";
+import { GlobalState } from "./context/global"
 
 function App(props) {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/user" element={<HomeUser />} />
-        <Route path="/guide" element={<HomeGuide />} />
-        <Route path="/userProfile" element={<UserProfile />} />
-        <Route path="/guideProfile" element={<GuideProfile />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </Router>
+    <GlobalState>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/user" element={<HomeUser />} />
+          <Route path="/guide" element={<HomeGuide />} />
+          <Route path="/userProfile" element={<UserProfile />} />
+          <Route path="/guideProfile" element={<GuideProfile />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Router>
+    </GlobalState>
   );
 }
 
