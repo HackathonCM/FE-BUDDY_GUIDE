@@ -1,6 +1,11 @@
-@import "./root.css";
+@import "../../Styles/root.css";
 
-.header-nav{
+.MuiAppBar-root {
+    background-color: red;
+}
+
+
+/* .header-nav{
     background-color: var(--main-color) ;
     display: flex;
     flex-direction: row;
@@ -60,4 +65,4 @@
     background-color: var(--main-accent-color);
     border: none;
     border-radius: 2vw;
-}
+} */
