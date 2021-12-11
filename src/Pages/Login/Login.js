@@ -14,6 +14,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GlobalContext } from '../../context/global';
 import Layout from '../../Components/Layout';
 
+import style from "./login.css"
+
 const theme = createTheme();
 
 const useLoginApi = () => {
@@ -45,7 +47,7 @@ export default function Login() {
     const renderTitle = () => {
         return (
             <>
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <Avatar sx={{ m: 1, bgcolor: '#6c757d' }}>
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
@@ -130,7 +132,7 @@ export default function Login() {
                     <CssBaseline />
                     <Box
                         sx={{
-                            marginTop: 8,
+                            marginTop: 0,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',

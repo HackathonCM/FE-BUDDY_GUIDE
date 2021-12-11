@@ -1,0 +1,28 @@
+@import "../../Styles/root.css";
+
+.MuiButton-root {
+    color:white!important;
+    background-color:  var(--secondary-color)!important;
+    border: var(--main-accent-color)!important;
+}
+
+.MuiLink-root {
+    color: black!important;
+    text-decoration-color: #adb5bd!important;
+}
+
+.MuiLink-root:hover {
+    text-decoration-color: black!important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+    color: #343a40!important
+}
+
+.MuiOutlinedInput-notchedOutline {
+    border-color: #495057!important;
+}
+
+#norton-idsafe-field-styling-divId {
+    display: none;
+}
