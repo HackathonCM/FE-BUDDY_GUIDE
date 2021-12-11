@@ -1,3 +1,10 @@
 .MuiContainer-root {
     flex-grow: 1;
 }
+
+.css-1oqqzyl-MuiContainer-root {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    /* gap: 10vh !important; */
+}

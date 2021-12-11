@@ -25,10 +25,19 @@ const useLoginApi = () => {
         try {
             const response = await axios.post('localhost:8080/account', {
                 username,
-                password
-            });
+                password,
+            },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Accept': '*/*'
+                    }
+                }
+            );
 
             if (response.status === 200) {
+                console.log("it works");
                 setGlobalState({
                     user: username
                 })
