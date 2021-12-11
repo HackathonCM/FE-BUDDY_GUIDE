@@ -1,9 +1,13 @@
 @import "../../Styles/root.css";
 
 .MuiAppBar-root {
-    background-color: red;
+    background-color: var(--main-color)!important;
 }
 
+.MuiButton-root {
+    color:white!important;
+    border-color: white!important;
+}
 
 /* .header-nav{
     background-color: var(--main-color) ;
