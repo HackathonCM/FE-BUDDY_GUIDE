@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,16 +15,17 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GlobalContext } from '../../Context/global';
 import Layout from '../../Components/Layout';
-
-import style from "./login.css"
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { getStorageValue, setStorageValue } from '../../Common/LocalStorage/helpers';
 import { LocalStorageKeys } from '../../Common/LocalStorage/interface';
+
+import style from "./login.css"
+import { UserRole } from '../../Common/User/interface';
 
 const theme = createTheme();
 
 const useLoginApi = () => {
     const { globalState, setGlobalState } = React.useContext(GlobalContext);
+    const navigate = useNavigate();
 
     const login = React.useCallback(async (username, password, isKeepAuthChecked) => {
         try {
@@ -39,12 +42,20 @@ const useLoginApi = () => {
                 }
             );
 
-            if (response.status === 200) {
+            if (response && response.status === 200) {
+                console.log(response.data);
                 setGlobalState({
                     user: response.data
                 })
                 if (isKeepAuthChecked) {
                     setStorageValue(LocalStorageKeys.LOGIN, response.data);
+                }
+
+                if (response.data && response.data.type === UserRole.USER) {
+                    navigate('/user');
+                }
+                else if (response.data && response.data.type === UserRole.GUIDE) {
+                    navigate('/guide');
                 }
             }
         } catch (err) {
