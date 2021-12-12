@@ -11,19 +11,22 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { GlobalContext } from '../../context/global';
+import { GlobalContext } from '../../Context/global';
 import Layout from '../../Components/Layout';
 
 import style from "./login.css"
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { getStorageValue, setStorageValue } from '../../Common/LocalStorage/helpers';
+import { LocalStorageKeys } from '../../Common/LocalStorage/interface';
 
 const theme = createTheme();
 
 const useLoginApi = () => {
     const { globalState, setGlobalState } = React.useContext(GlobalContext);
 
-    const login = React.useCallback(async (username, password) => {
+    const login = React.useCallback(async (username, password, isKeepAuthChecked) => {
         try {
-            const response = await axios.post('localhost:8080/account', {
+            const response = await axios.post('http://localhost:8080/account', {
                 username,
                 password,
             },
@@ -37,10 +40,12 @@ const useLoginApi = () => {
             );
 
             if (response.status === 200) {
-                console.log("it works");
                 setGlobalState({
-                    user: username
+                    user: response.data
                 })
+                if (isKeepAuthChecked) {
+                    setStorageValue(LocalStorageKeys.LOGIN, response.data);
+                }
             }
         } catch (err) {
             console.error(err);
@@ -51,7 +56,19 @@ const useLoginApi = () => {
 }
 
 export default function Login() {
+    const { setGlobalState } = React.useContext(GlobalContext);
+
+    React.useEffect(() => {
+        const loginStorageValue = getStorageValue(LocalStorageKeys.LOGIN);
+
+        if (loginStorageValue) {
+            setGlobalState({ user: loginStorageValue });
+        }
+    }, []);
+
     const { login } = useLoginApi();
+
+    const [isKeepAuthChecked, setIsKeepAuthChecked] = React.useState(false);
 
     const renderTitle = () => {
         return (
@@ -93,6 +110,14 @@ export default function Login() {
         )
     }
 
+    const renderAuthCheckbox = () => {
+        return (
+            <FormGroup>
+                <FormControlLabel control={<Checkbox checked={isKeepAuthChecked} onChange={(event) => { setIsKeepAuthChecked(event.target.checked) }} />} label="Keep me signed in" />
+            </FormGroup>
+        )
+    }
+
     const renderSubmitButton = () => {
         return (
             <Button
@@ -131,7 +156,7 @@ export default function Login() {
             password: data.get('password'),
         });
 
-        await login(data.get('user_name'), data.get('password'))
+        await login(data.get('user_name'), data.get('password'), isKeepAuthChecked)
     };
 
     return (
@@ -150,6 +175,7 @@ export default function Login() {
                         {renderTitle()}
                         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                             {renderInputs()}
+                            {renderAuthCheckbox()}
                             {renderSubmitButton()}
                             {renderInstructions()}
                         </Box>

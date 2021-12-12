@@ -1,6 +1,4 @@
 import catedrala_ortodoxa from "./images/catedrala_ortodoxa.jpg";
-import catedrala_catolica from "./images/catedrala_catolica.jpg";
-import central_park from "./images/central_park.jpg";
 import paintball from "./images/paintball.jpg";
 import culture from "./images/cultura.jpg";
 import party from "./images/party.jpg";
@@ -11,18 +9,18 @@ enum response {
     RELIGION = "RELIGION",
     ENTERTAINMENT = "ENTERTAINMENT",
     CULTURAL = "CULTURAL",
-    PARTY = "PARTY"
+    PARTY = "PARTY",
 }
 
 const values: Objective = {
     [response.RELIGION]:
         [{ name: "Catedrale", description: "Description", imageUrl: catedrala_ortodoxa }],
     [response.ENTERTAINMENT]:
-        [{ name: "Entertainment", description: "Description Bar", imageUrl: paintball }],
+        [{ name: "Entertainment", description: "Description Entertainment", imageUrl: paintball }],
     [response.CULTURAL]:
-        [{ name: "Bar", description: "Description Bar", imageUrl: culture }],
+        [{ name: "Culture", description: "Description Culture", imageUrl: culture }],
     [response.PARTY]:
-        [{ name: "Party", description: "Description Bar", imageUrl: party }],
+        [{ name: "Party", description: "Description Party", imageUrl: party }],
 }
 
 export type Objective = Partial<{ [key in response]: { name: string, description: string, imageUrl: string }[] }>

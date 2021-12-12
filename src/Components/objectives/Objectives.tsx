@@ -1,7 +1,7 @@
 /* eslint-disable import/first */
 import { useCallback, useContext, useEffect } from 'react';;
 import { mapResponseToOjectives, Objective } from "./helpers"
-import { GlobalContext } from '../../context/global';
+import { GlobalContext } from '../../Context/global';
 import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';

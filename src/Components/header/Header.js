@@ -7,7 +7,7 @@ import MoreIcon from '@mui/icons-material/MoreVert'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import Search from './components/Search/Search';
-import { GlobalContext } from "../../context/global";
+import { GlobalContext } from "../../Context/global";
 import style from "./header.css"
 
 export default function PrimarySearchAppBar() {

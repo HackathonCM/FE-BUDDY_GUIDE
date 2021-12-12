@@ -8,7 +8,7 @@ import Home from "./Pages/Home/Home";
 import UserProfile from "./Pages/User/UserProfile";
 import GuideProfile from "./Pages/Guide/GuideProfile";
 import Login from "./Pages/Login/Login";
-import { GlobalState } from "./context/global"
+import { GlobalState } from "./Context/global"
 
 function App(props) {
   return (
