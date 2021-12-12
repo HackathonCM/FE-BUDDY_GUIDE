@@ -23,3 +23,12 @@ export const getStorageValue = (key: LocalStorageKeys): string | undefined => {
         return undefined;
     }
 }
+
+export const removeStorageValue = (key: LocalStorageKeys): void => {
+    try {
+        localStorage.removeItem(key);
+    }
+    catch (err) {
+        console.log(err);
+    }
+}

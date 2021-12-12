@@ -5,14 +5,18 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert'
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import Search from './components/Search/Search';
 import { GlobalContext } from "../../Context/global";
 import style from "./header.css"
+import { useLogout } from "../../Pages/Login/helpers";
 
 export default function PrimarySearchAppBar() {
     const navigate = useNavigate();
     const { globalState, setGlobalState } = useContext(GlobalContext);
+
+    const { logout } = useLogout();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -56,6 +60,7 @@ export default function PrimarySearchAppBar() {
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            {/* <MenuItem onClick={logout}>My account</MenuItem> */}
         </Menu>
     );
 
@@ -100,6 +105,18 @@ export default function PrimarySearchAppBar() {
                         <AccountCircle />
                     </IconButton>
                     <p>Profile</p>
+                </MenuItem>
+                <MenuItem onClick={() => { handleMenuClose(); logout(); navigate('/login'); }}>
+                    <IconButton
+                        size="large"
+                        aria-label="logout of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        color="inherit"
+                    >
+                        <LogoutIcon />
+                    </IconButton>
+                    <p>Log out</p>
                 </MenuItem>
             </> : <MenuItem onClick={() => {
                 navigate('/login');
@@ -161,6 +178,14 @@ export default function PrimarySearchAppBar() {
                         color="inherit"
                     >
                         <AccountCircle />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => { logout(); navigate('/login'); }}
+                        size="large"
+                        aria-label="logout"
+                        color="inherit"
+                    >
+                        <LogoutIcon />
                     </IconButton>
                 </Box>
             )
