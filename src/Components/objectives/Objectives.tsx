@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 import { useCallback, useContext, useEffect } from 'react';;
-import { mapResponseToOjectives, Objective } from "./helpers"
+import { mapResponseToOjectives, Objective, response } from "./helpers"
 import { GlobalContext } from '../../Context/global';
 import axios from 'axios';
 import Card from '@mui/material/Card';
@@ -14,11 +14,12 @@ const useObjectivesApi = () => {
 
     const getObjectivesApi = useCallback(async () => {
         try {
-            const response = await axios.get('localhost:8080/categories');
+            const response = await axios.get('http://localhost:8080/categories');
 
             if (response.status === 200) {
+                console.log(response.data);
                 setGlobalState({
-                    objectives: response //response.data
+                    objectives: response.data
                 })
             }
         } catch (err) {
@@ -29,9 +30,31 @@ const useObjectivesApi = () => {
     return { getObjectivesApi }
 }
 
+const useGuidesApi = () => {
+    const { setGlobalState } = useContext(GlobalContext);
+
+    const getGuidesApi = useCallback(async (category: string) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/${category}/guides`);
+
+            if (response.status === 200) {
+                console.log(response.data);
+                setGlobalState({
+                    guides: response.data
+                })
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }, [setGlobalState]);
+
+    return { getGuidesApi }
+}
+
 const Objectives = () => {
     const { globalState } = useContext(GlobalContext);
     const { getObjectivesApi } = useObjectivesApi();
+    const { getGuidesApi } = useGuidesApi();
 
     // componentDidMount
     useEffect(() => {
@@ -40,11 +63,12 @@ const Objectives = () => {
 
 
     // @ts-ignore
-    // const objectives: Objective = globalState?.objectives?.length ? mapResponseToOjectives(globalState.objectives) : {} as Objective;
+    const objectives: Objective = globalState?.objectives?.length ? mapResponseToOjectives(globalState.objectives) : [] as Objective;
 
-    const objectives: Objective = mapResponseToOjectives(["RELIGION", "ENTERTAINMENT", "CULTURAL", "RESTAURANTS", "PARKS"]);
+    // const objectives: Objective = mapResponseToOjectives(["RELIGION", "ENTERTAINMENT", "CULTURAL", "RESTAURANTS", "PARKS", "PARTY"]);
 
     const renderCard = (key: number, objective: {
+        type: response,
         name: string;
         description: string;
         imageUrl: string;
@@ -68,7 +92,7 @@ const Objectives = () => {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={() => getGuidesApi(objective.type)}>
                         Open
                     </Button>
                 </CardActions>
@@ -78,6 +102,7 @@ const Objectives = () => {
     }
 
     return Object.values(objectives).map(objectiveList => {
+        console.log(objectiveList);
         return objectiveList.map((objectiveListItem, index) => renderCard(index, objectiveListItem))
     })
 

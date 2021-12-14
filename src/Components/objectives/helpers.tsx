@@ -5,7 +5,7 @@ import party from "./images/party.jpg";
 
 import "./objectives.css";
 
-enum response {
+export enum response {
     RELIGION = "RELIGION",
     ENTERTAINMENT = "ENTERTAINMENT",
     CULTURAL = "CULTURAL",
@@ -14,16 +14,16 @@ enum response {
 
 const values: Objective = {
     [response.RELIGION]:
-        [{ name: "Catedrale", description: "Description", imageUrl: catedrala_ortodoxa }],
+        [{ type: response.RELIGION, name: "Catedrale", description: "Description", imageUrl: catedrala_ortodoxa }],
     [response.ENTERTAINMENT]:
-        [{ name: "Entertainment", description: "Description Entertainment", imageUrl: paintball }],
+        [{ type: response.ENTERTAINMENT, name: "Entertainment", description: "Description Entertainment", imageUrl: paintball }],
     [response.CULTURAL]:
-        [{ name: "Culture", description: "Description Culture", imageUrl: culture }],
+        [{ type: response.CULTURAL, name: "Culture", description: "Description Culture", imageUrl: culture }],
     [response.PARTY]:
-        [{ name: "Party", description: "Description Party", imageUrl: party }],
+        [{ type: response.PARTY, name: "Party", description: "Description Party", imageUrl: party }],
 }
 
-export type Objective = Partial<{ [key in response]: { name: string, description: string, imageUrl: string }[] }>
+export type Objective = Partial<{ [key in response]: { type: response, name: string, description: string, imageUrl: string }[] }>
 
 const isResponse = (key: string): key is response => key in values;
 

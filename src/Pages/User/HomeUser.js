@@ -1,6 +1,7 @@
 import React from "react";
 
 import Layout from "../../Components/Layout";
+import Objectives from "../../Components/objectives/Objectives";
 
 function HomeUser() {
     return (
@@ -8,6 +9,7 @@ function HomeUser() {
             <h1>
                 User Home Page
             </h1>
+            {/* <Objectives /> */}
         </Layout>
     );
 }
