@@ -2,7 +2,7 @@ import { LocalStorageKeys } from "./interface";
 
 export const setStorageValue = (key: LocalStorageKeys, value: string): void => {
     try {
-        localStorage.setItem(key, value);
+        localStorage.setItem(key, JSON.stringify(value));
         console.log(value);
     }
     catch (err) {
@@ -16,7 +16,7 @@ export const getStorageValue = (key: LocalStorageKeys): string | undefined => {
 
         if (!storageValue)
             return undefined;
-        return storageValue;
+        return JSON.parse(storageValue);
     }
     catch (err) {
         console.log(err);

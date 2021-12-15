@@ -17,7 +17,6 @@ function App(props) {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/guides" />
           <Route path="/notifications" element={<Notifications />} />
 
           <Route
@@ -28,6 +27,12 @@ function App(props) {
           />
           <Route path="/user" element={<HomeUser />} />
 
+          <Route
+            path="/guide/:objectiveName/guides"
+            exact
+            element={<ObjectiveGuideList />}
+
+          />
           <Route path="/guide" element={<HomeGuide />} />
           <Route path="/userProfile" element={<UserProfile />} />
           <Route path="/guideProfile" element={<GuideProfile />} />

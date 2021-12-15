@@ -9,7 +9,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const useObjectivesApi = () => {
     const { setGlobalState } = useContext(GlobalContext);
@@ -36,6 +36,8 @@ const Objectives = () => {
     const { getObjectivesApi } = useObjectivesApi();
 
     const navigate = useNavigate();
+    const location = useLocation();
+
 
     // componentDidMount
     useEffect(() => {
@@ -74,8 +76,13 @@ const Objectives = () => {
                 </CardActionArea>
                 <CardActions>
                     <Button size="small" color="primary" onClick={() => {
-                        navigate(`/user/${objective.type.toLowerCase()}/guides`);
-                        // getGuidesApi(objective.type); 
+                        if (location.pathname === "/user") {
+                            navigate(`/user/${objective.type.toLowerCase()}/guides`);
+                        }
+                        else if (location.pathname === "/guide") {
+                            navigate(`/guide/${objective.type.toLowerCase()}/guides`);
+                        }
+
                     }}>
                         Open
                     </Button>
