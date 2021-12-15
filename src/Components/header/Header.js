@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Badge, Button, Box, IconButton, Menu, MenuItem, Typography, Toolbar } from "@mui/material";
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -11,6 +11,8 @@ import Search from './components/Search/Search';
 import { GlobalContext } from "../../Context/global";
 import style from "./header.css"
 import { useLogout } from "../../Pages/Login/helpers";
+import { getStorageValue } from "../../Common/LocalStorage/helpers";
+import { LocalStorageKeys } from "../../Common/LocalStorage/interface";
 
 export default function PrimarySearchAppBar() {
     const navigate = useNavigate();
@@ -20,6 +22,14 @@ export default function PrimarySearchAppBar() {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+    useEffect(() => {
+        const loginStorageValue = getStorageValue(LocalStorageKeys.LOGIN);
+
+        if (loginStorageValue) {
+            setGlobalState({ user: loginStorageValue });
+        }
+    }, []);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

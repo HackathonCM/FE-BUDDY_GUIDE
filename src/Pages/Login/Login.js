@@ -66,16 +66,6 @@ const useLoginApi = () => {
 }
 
 export default function Login() {
-    const { setGlobalState } = React.useContext(GlobalContext);
-
-    React.useEffect(() => {
-        const loginStorageValue = getStorageValue(LocalStorageKeys.LOGIN);
-
-        if (loginStorageValue) {
-            setGlobalState({ user: loginStorageValue });
-        }
-    }, []);
-
     const { login } = useLoginApi();
 
     const [isKeepAuthChecked, setIsKeepAuthChecked] = React.useState(false);
