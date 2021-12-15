@@ -8,7 +8,13 @@ export const GlobalContext = React.createContext({
 export const GlobalState = (props) => {
     const [state, setState] = React.useState({});
 
-    return <GlobalContext.Provider value={{ globalState: state, setGlobalState: setState }}>
+    return <GlobalContext.Provider value={{
+        globalState: state, setGlobalState: newState => {
+            setState(prev => ({
+                ...prev, ...newState
+            }))
+        }
+    }}>
         {props.children}
     </GlobalContext.Provider>
 }
