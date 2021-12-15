@@ -43,7 +43,6 @@ const useLoginApi = () => {
             );
 
             if (response && response.status === 200) {
-                console.log(response.data);
                 setGlobalState({
                     user: response.data
                 })

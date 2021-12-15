@@ -9,6 +9,7 @@ import UserProfile from "./Pages/User/UserProfile";
 import GuideProfile from "./Pages/Guide/GuideProfile";
 import Login from "./Pages/Login/Login";
 import { GlobalState } from "./Context/global"
+import ObjectiveGuideList from "./Pages/ObjectiveGuideList/ObjectiveGuideList";
 
 function App(props) {
   return (
@@ -16,8 +17,17 @@ function App(props) {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/guides" />
           <Route path="/notifications" element={<Notifications />} />
+
+          <Route
+            path="/user/:objectiveName/guides"
+            exact
+            element={<ObjectiveGuideList />}
+
+          />
           <Route path="/user" element={<HomeUser />} />
+
           <Route path="/guide" element={<HomeGuide />} />
           <Route path="/userProfile" element={<UserProfile />} />
           <Route path="/guideProfile" element={<GuideProfile />} />
