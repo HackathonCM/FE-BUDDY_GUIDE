@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -7,16 +7,17 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { GlobalContext } from '../../Context/global';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import AvatarIcon from './AvatarIcon';
 
-const bull = (
-    <Box
-        component="span"
-        sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-        •
-    </Box>
-);
+import "./objectiveGuideList.css";
+import Layout from '../../Components/Layout';
+
+import TwitterIcon from '@mui/icons-material/Twitter';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import { IconButton } from '@mui/material';
+
 
 const useGuidesApi = () => {
     const { setGlobalState } = useContext(GlobalContext);
@@ -25,7 +26,10 @@ const useGuidesApi = () => {
         try {
             const response = await axios.get(`http://localhost:8080/${category}/guides`);
 
+            console.log('response.data', response.data);
+
             if (response.status === 200) {
+
                 setGlobalState({
                     guides: response.data
                 })
@@ -33,7 +37,7 @@ const useGuidesApi = () => {
         } catch (err) {
             console.error(err);
         }
-    }, [setGlobalState]);
+    }, []);
 
     return { getGuidesApi }
 }
@@ -44,73 +48,112 @@ const ObjectiveGuideList = () => {
     let { objectiveName } = useParams();
 
     const navigate = useNavigate();
+    const location = useLocation();
 
-    const [isObjectiveNameValid, setIsObjectiveNameValid] = React.useState(true);
-
-    useEffect(() => {
-        // @ts-ignore
-        const objective = globalState?.objectives?.find((objective) => objective.toLowerCase() === objectiveName)
-
-        if (!objective) {
-            setIsObjectiveNameValid(false);
-        }
-
-    }, []);
+    console.log("component render");
+    console.log("objectiveName", objectiveName);
 
     // component did update
     useEffect(() => {
-        if (objectiveName && isObjectiveNameValid) {
+        console.log("inside of useEffect");
+
+        // @ts-ignore
+        if (globalState?.guides) return;
+
+        // @ts-ignore
+        const objective = globalState?.objectives?.find((objective) => objective.toLowerCase() === objectiveName);
+
+        // console.log('objectiveName', objectiveName);
+        // console.log('objective', objective);
+
+        if (objectiveName && objective) {
             getGuidesApi(objectiveName);
         }
         else {
             navigate('/user');
         }
 
-    }, [isObjectiveNameValid]);
+    }, [navigate, getGuidesApi, objectiveName, globalState]);
 
+    useEffect(() => {
+        console.log("inside of useEffect2");
 
-    // setGlobalState({ guides: [] });
+        // @ts-ignore
+        getGuidesApi(objectiveName);
+    }, [objectiveName]);
 
-    // guide: {
-    //     available: boolean,
-    //     email: string,
-    //     firstName: string,
-    //     lastName: string,
-    //     price: string,
-    //     telephone: string
-    // }
-    const renderCard = () => {
+    const renderCard = (key: number, guide: {
+        available: boolean,
+        email: string,
+        firstName: string,
+        lastName: string,
+        price: string,
+        telephone: string
+    }) => {
+        const displayBookNow = location.pathname.includes('user');
+
         return (
-            <Card sx={{ minWidth: 275 }}>
+            <Card key={key} sx={{ minWidth: 275 }}>
                 <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        Word of the Day
+                    <AvatarIcon firstName={guide.firstName} lastName={guide.lastName} />
+                    <Typography sx={{ fontSize: 30 }} color='#000' >
+                        {`${guide.firstName} ${guide.lastName}`}
                     </Typography>
-                    <Typography variant="h5" component="div">
-                        be{bull}nev{bull}o{bull}lent
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        adjective
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary" style={{ marginTop: 10 }}>
+                        {guide.telephone}
                     </Typography>
                     <Typography variant="body2">
-                        well meaning and kindly.
-                        <br />
-                        {'"a benevolent smile"'}
+                        {guide.email}
                     </Typography>
+                    <div>
+                        <IconButton
+                            size="large"
+                            aria-label="twitter"
+                            color="inherit"
+                        >
+                            <TwitterIcon />
+                        </IconButton>
+                        <IconButton
+                            size="large"
+                            aria-label="facebook"
+                            color="inherit"
+                        >
+                            <FacebookIcon />
+                        </IconButton>
+                        <IconButton
+                            size="large"
+                            aria-label="instagram"
+                            color="inherit"
+                        >
+                            <InstagramIcon />
+                        </IconButton>
+                    </div>
                 </CardContent>
-                <CardActions>
-                    <Button size="small">Learn More</Button>
-                </CardActions>
+                {displayBookNow && <CardActions>
+                    <Button size="small" disabled={!guide.available}>Book Now</Button>
+                </CardActions>}
             </Card>
         )
     }
 
+    // // @ts-ignore
+    // console.log('globalState?.guides', globalState?.guides);
+
+    // @ts-ignore
+    if (!globalState?.guides) {
+        return <div>Loading...</div>;
+    }
+
     return (
-        renderCard()
-        // globalState?.guides?.map(guide => {
-        //     return renderCard(guide);
-        // })
-    );
+        <Layout>
+            <Typography variant="h5" component="div" style={{ marginTop: 30, fontWeight: 'bold' }}>
+                {`${objectiveName?.toUpperCase()} OBJECTIVES`}
+            </Typography>
+            {// @ts-ignore
+                globalState?.guides?.map((guide, index) => renderCard(index, guide))
+            }
+        </Layout>
+    )
 }
 
 export default ObjectiveGuideList;
