@@ -13,6 +13,7 @@ import style from "./header.css"
 import { useLogout } from "../../Pages/Login/helpers";
 import { getStorageValue } from "../../Common/LocalStorage/helpers";
 import { LocalStorageKeys } from "../../Common/LocalStorage/interface";
+import { UserRole } from "../../Common/User/interface";
 
 export default function PrimarySearchAppBar() {
     const navigate = useNavigate();
@@ -92,7 +93,7 @@ export default function PrimarySearchAppBar() {
             onClose={handleMobileMenuClose}
         >
             {globalState.user ? <>
-                <MenuItem>
+                {globalState.user.type === UserRole.GUIDE && <MenuItem>
                     <IconButton
                         size="large"
                         aria-label="show 17 new notifications"
@@ -103,7 +104,7 @@ export default function PrimarySearchAppBar() {
                         </Badge>
                     </IconButton>
                     <p>Notifications</p>
-                </MenuItem>
+                </MenuItem>}
                 <MenuItem onClick={handleProfileMenuOpen}>
                     <IconButton
                         size="large"
@@ -169,7 +170,7 @@ export default function PrimarySearchAppBar() {
         } else
             return (
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    <IconButton
+                    {globalState.user.type === UserRole.GUIDE && <IconButton
                         size="large"
                         aria-label="show 17 new notifications"
                         color="inherit"
@@ -177,7 +178,7 @@ export default function PrimarySearchAppBar() {
                         <Badge badgeContent={17} color="error">
                             <NotificationsIcon />
                         </Badge>
-                    </IconButton>
+                    </IconButton>}
                     <IconButton
                         size="large"
                         edge="end"

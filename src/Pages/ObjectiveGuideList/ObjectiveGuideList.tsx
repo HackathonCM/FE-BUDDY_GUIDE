@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -18,6 +17,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { IconButton } from '@mui/material';
 
+import Snackbar from '@mui/material/Snackbar';
+
 
 const useGuidesApi = () => {
     const { setGlobalState } = useContext(GlobalContext);
@@ -26,7 +27,7 @@ const useGuidesApi = () => {
         try {
             const response = await axios.get(`http://localhost:8080/${category}/guides`);
 
-            console.log('response.data', response.data);
+            console.log('response.data GUIDES', response.data);
 
             if (response.status === 200) {
 
@@ -42,29 +43,47 @@ const useGuidesApi = () => {
     return { getGuidesApi }
 }
 
+const useReservationApi = () => {
+    const { setGlobalState } = useContext(GlobalContext);
+
+    const getReservationApi = useCallback(async (guideId: number, userId: number) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/${guideId}/${userId}/reservation`);
+
+            console.log('response.data GUIDES', response.data);
+
+            if (response.status === 200) {
+
+                setGlobalState({
+                    showSnackbar: true
+                })
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }, []);
+
+    return { getReservationApi }
+}
+
 const ObjectiveGuideList = () => {
-    const { globalState } = useContext(GlobalContext);
+    const { globalState, setGlobalState } = useContext(GlobalContext);
     const { getGuidesApi } = useGuidesApi();
+    const { getReservationApi } = useReservationApi();
     let { objectiveName } = useParams();
+
+
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    console.log("component render");
-    console.log("objectiveName", objectiveName);
-
     // component did update
     useEffect(() => {
-        console.log("inside of useEffect");
-
         // @ts-ignore
         if (globalState?.guides) return;
 
         // @ts-ignore
         const objective = globalState?.objectives?.find((objective) => objective.toLowerCase() === objectiveName);
-
-        // console.log('objectiveName', objectiveName);
-        // console.log('objective', objective);
 
         if (objectiveName && objective) {
             getGuidesApi(objectiveName);
@@ -76,13 +95,12 @@ const ObjectiveGuideList = () => {
     }, [navigate, getGuidesApi, objectiveName, globalState]);
 
     useEffect(() => {
-        console.log("inside of useEffect2");
-
         // @ts-ignore
         getGuidesApi(objectiveName);
     }, [objectiveName]);
 
     const renderCard = (key: number, guide: {
+        id: number,
         available: boolean,
         email: string,
         firstName: string,
@@ -130,7 +148,10 @@ const ObjectiveGuideList = () => {
                     </div>
                 </CardContent>
                 {displayBookNow && <CardActions>
-                    <Button size="small" disabled={!guide.available}>Book Now</Button>
+                    <Button size="small" disabled={!guide.available} onClick={() => {
+                        // @ts-ignore
+                        getReservationApi(guide.id, globalState.user.id)
+                    }}>Book Now</Button>
                 </CardActions>}
             </Card>
         )
@@ -151,6 +172,17 @@ const ObjectiveGuideList = () => {
             </Typography>
             {// @ts-ignore
                 globalState?.guides?.map((guide, index) => renderCard(index, guide))
+            }
+            {
+                <Snackbar
+                    autoHideDuration={2000}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    // @ts-ignore 
+                    open={Boolean(globalState.showSnackbar)}
+                    onClose={() => { setGlobalState({ showSnackbar: false }) }}
+                    message="Notification successfully sent!"
+                    key={'top' + 'center'}
+                />
             }
         </Layout>
     )

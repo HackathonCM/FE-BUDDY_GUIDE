@@ -19,3 +19,7 @@
 .Mui-disabled {
     opacity: 0.5;
 }
+
+.css-1eqdgzv-MuiPaper-root-MuiSnackbarContent-root {
+    background-color: #388e3c !important;
+}
