@@ -1,5 +1,10 @@
 .css-1ri6ub7-MuiPaper-root-MuiCard-root {
     margin-top: 10vh;
     width: 40vw !important;
+    /* height: 60vh !important; */
     max-width: 50vw !important;
+}
+
+.css-o69gx8-MuiCardMedia-root {
+    height: 40vh;
 }

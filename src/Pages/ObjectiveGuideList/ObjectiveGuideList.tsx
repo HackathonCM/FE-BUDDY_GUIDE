@@ -18,6 +18,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import { IconButton } from '@mui/material';
 
 import Snackbar from '@mui/material/Snackbar';
+import { UserRole } from '../../Common/User/interface';
 
 
 const useGuidesApi = () => {
@@ -66,10 +67,35 @@ const useReservationApi = () => {
     return { getReservationApi }
 }
 
+const useNotificationApi = () => {
+    const { setGlobalState } = useContext(GlobalContext);
+
+    const getNotificationApi = useCallback(async (guideId: number) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/${guideId}/notification`);
+
+            console.log('response.data GUIDES', response.data);
+
+            if (response.status === 200) {
+
+                setGlobalState({
+                    notifier: response.data
+                })
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }, []);
+
+    return { getNotificationApi }
+}
+// globalState.user.type === UserRole.GUIDE
+
 const ObjectiveGuideList = () => {
     const { globalState, setGlobalState } = useContext(GlobalContext);
     const { getGuidesApi } = useGuidesApi();
     const { getReservationApi } = useReservationApi();
+    const { getNotificationApi } = useNotificationApi();
     let { objectiveName } = useParams();
 
 
@@ -97,6 +123,12 @@ const ObjectiveGuideList = () => {
     useEffect(() => {
         // @ts-ignore
         getGuidesApi(objectiveName);
+
+        // @ts-ignore
+        if (globalState.user.type === UserRole.GUIDE) {
+            // @ts-ignore
+            getNotificationApi(globalState.notifier);
+        }
     }, [objectiveName]);
 
     const renderCard = (key: number, guide: {
@@ -167,7 +199,7 @@ const ObjectiveGuideList = () => {
 
     return (
         <Layout>
-            <Typography variant="h5" component="div" style={{ marginTop: 30, fontWeight: 'bold' }}>
+            <Typography variant="h5" component="div" style={{ marginTop: 30, fontWeight: 'bold', fontSize: 32 }}>
                 {`${objectiveName?.toUpperCase()} OBJECTIVES`}
             </Typography>
             {// @ts-ignore

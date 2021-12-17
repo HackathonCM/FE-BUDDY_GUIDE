@@ -1,7 +1,5 @@
 @import "../../Styles/root.css";
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap');
-
 p {
     margin: 0;
 }
@@ -9,7 +7,7 @@ p {
 footer {
     color: #fff;
     background-color: var(--main-color);
-    font-family: "Poppins";
+    font-family: "Robotto";
     margin-top: 40px;
 }
 

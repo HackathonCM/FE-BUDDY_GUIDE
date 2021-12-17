@@ -24,8 +24,8 @@ function HomeUser() {
 
     return (
         <Layout>
-            <h1>
-                User Home Page
+            <h1 style={{ fontFamily: "Roboto" }}>
+                Cluj Main Objectives
             </h1>
             <Objectives />
         </Layout>

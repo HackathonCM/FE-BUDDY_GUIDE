@@ -14,6 +14,7 @@ import { useLogout } from "../../Pages/Login/helpers";
 import { getStorageValue } from "../../Common/LocalStorage/helpers";
 import { LocalStorageKeys } from "../../Common/LocalStorage/interface";
 import { UserRole } from "../../Common/User/interface";
+import { fontSize } from "@mui/system";
 
 export default function PrimarySearchAppBar() {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function PrimarySearchAppBar() {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const handleProfileMenuOpen = (event) => {
+    const handleNotificationsMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -69,8 +70,10 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <div style={{ padding: 20 }}>
+                <p style={{ color: 'black', fontSize: 24 }}>Your notifications</p>
+                <p style={{ color: 'black', fontSize: 18, paddingTop: 5 }}>You have a notification from: Dorel</p>
+            </div>
             {/* <MenuItem onClick={logout}>My account</MenuItem> */}
         </Menu>
     );
@@ -98,14 +101,16 @@ export default function PrimarySearchAppBar() {
                         size="large"
                         aria-label="show 17 new notifications"
                         color="inherit"
+                        onClick={handleNotificationsMenuOpen}
                     >
-                        <Badge badgeContent={17} color="error">
+                        {/* hasNotification? 1 : 0 */}
+                        <Badge badgeContent={1} color="error">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
                     <p>Notifications</p>
                 </MenuItem>}
-                <MenuItem onClick={handleProfileMenuOpen}>
+                <MenuItem>
                     <IconButton
                         size="large"
                         aria-label="account of current user"
@@ -174,8 +179,9 @@ export default function PrimarySearchAppBar() {
                         size="large"
                         aria-label="show 17 new notifications"
                         color="inherit"
+                        onClick={handleNotificationsMenuOpen}
                     >
-                        <Badge badgeContent={17} color="error">
+                        <Badge badgeContent={1} color="error">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>}
@@ -185,7 +191,6 @@ export default function PrimarySearchAppBar() {
                         aria-label="account of current user"
                         aria-controls={menuId}
                         aria-haspopup="true"
-                        onClick={handleProfileMenuOpen}
                         color="inherit"
                     >
                         <AccountCircle />

@@ -14,13 +14,13 @@ export enum response {
 
 const values: Objective = {
     [response.RELIGION]:
-        [{ type: response.RELIGION, name: "Catedrale", description: "Description", imageUrl: catedrala_ortodoxa }],
+        [{ type: response.RELIGION, name: "Cathedrals", description: "Catholic Cathedral, Metropolitan Cathedral", imageUrl: catedrala_ortodoxa }],
     [response.ENTERTAINMENT]:
-        [{ type: response.ENTERTAINMENT, name: "Entertainment", description: "Description Entertainment", imageUrl: paintball }],
+        [{ type: response.ENTERTAINMENT, name: "Entertainment", description: "Adrenaline Park, Paintball Airsoft, WindMill Zoo Park", imageUrl: paintball }],
     [response.CULTURAL]:
-        [{ type: response.CULTURAL, name: "Culture", description: "Description Culture", imageUrl: culture }],
+        [{ type: response.CULTURAL, name: "Culture", description: "National Theatre, Art Museum, Hungarian Opera", imageUrl: culture }],
     [response.PARTY]:
-        [{ type: response.PARTY, name: "Party", description: "Description Party", imageUrl: party }],
+        [{ type: response.PARTY, name: "Party", description: "Euphoria Music Hall, NOA Club, Piezisa street", imageUrl: party }],
 }
 
 export type Objective = Partial<{ [key in response]: { type: response, name: string, description: string, imageUrl: string }[] }>

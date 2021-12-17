@@ -26,8 +26,8 @@ const HomeGuide = () => {
     console.log("home page")
     return (
         <Layout>
-            <h1>
-                Guide Home Page
+            <h1 style={{ fontFamily: "Roboto" }}>
+                Cluj Main Objectives
             </h1>
             <Objectives />
         </Layout>
