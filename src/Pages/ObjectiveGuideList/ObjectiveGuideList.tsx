@@ -131,6 +131,13 @@ const ObjectiveGuideList = () => {
         }
     }, [objectiveName]);
 
+    useEffect(() => {
+        // @ts-ignore
+        getGuidesApi(objectiveName);
+
+        // @ts-ignore
+    }, [globalState.showSnackbar]);
+
     const renderCard = (key: number, guide: {
         id: number,
         available: boolean,
